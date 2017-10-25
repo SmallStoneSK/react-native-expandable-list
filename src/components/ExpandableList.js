@@ -17,11 +17,13 @@ export class ExpandableList extends Component {
       openStatus: this._getInitialOpenStatus()
     };
 
+    this.closeAll = this.closeAll.bind(this);
     this.toggleOpenStatus = this.toggleOpenStatus.bind(this);
     this._supportFlatList = this._supportFlatList.bind(this);
     this._renderListItem = this._renderListItem.bind(this);
     this._renderFlatListItem = this._renderFlatListItem.bind(this);
     this._renderListViewItem = this._renderListViewItem.bind(this);
+    this._renderUsingView = this._renderUsingView.bind(this);
     this._renderUsingFlatList = this._renderUsingFlatList.bind(this);
     this._renderUsingListView = this._renderUsingListView.bind(this);
   }
@@ -51,6 +53,12 @@ export class ExpandableList extends Component {
       });
   }
 
+  closeAll() {
+    this.setState({
+      openStatus: this.state.openStatus.map(() => false)
+    });
+  }
+
   toggleOpenStatus(index, closeOthers) {
 
     const newOpenStatus = this.state.openStatus.map((status, idx) => {
@@ -66,7 +74,7 @@ export class ExpandableList extends Component {
 
   _renderListItem(item, sectionId) {
 
-    const {renderSectionHeader, renderListItem, itemStyle} = this.props;
+    const {renderSectionHeader, renderListItem, itemStyle, itemVerticalSpace, itemOpenStyle} = this.props;
 
     const {
       listData = [],
@@ -74,14 +82,17 @@ export class ExpandableList extends Component {
     } = item;
 
     return (
-      <View key={`section-${sectionId}`} style={itemStyle}>
+      <View
+        key={`section-${sectionId}`}
+        style={[itemStyle, sectionId && itemVerticalSpace && {marginTop: itemVerticalSpace}]}
+        >
         {renderSectionHeader && renderSectionHeader({
           sectionId,
           item: sectionHeaderData,
           toggleOpenStatus: this.toggleOpenStatus.bind(this, sectionId)}
         )}
         {listData.length > 0 &&
-          <ScrollView style={!this.state.openStatus[sectionId] && {height: 0}}>
+          <ScrollView bounces={false} style={!this.state.openStatus[sectionId] && {height: 0}}>
             {listData.map((listItem, index) => {
               return (
                 <View key={`sid:${sectionId}-rid:${index}`}>
@@ -118,6 +129,19 @@ export class ExpandableList extends Component {
     );
   }
 
+  _renderUsingView() {
+
+    const {data = [], style} = this.props;
+
+    return (
+      <View style={style}>
+        {data.map((item, sectionId) => {
+          return this._renderListItem(item, sectionId);
+        })}
+      </View>
+    )
+  }
+
   _renderUsingListView() {
 
     const {data = [], style} = this.props;
@@ -132,8 +156,19 @@ export class ExpandableList extends Component {
   }
 
   render() {
-    return this._supportFlatList()
-      ? this._renderUsingFlatList()
-      : this._renderUsingListView();
+
+    const strategy = {
+      'View': this._renderUsingView,
+      'ListView': this._renderUsingListView,
+      'FlatList': this._supportFlatList() ? this._renderUsingFlatList : this._renderUsingListView
+    };
+
+    // give a default value to implementedBy
+    let {implementedBy} = this.props;
+    if(strategy[implementedBy]) {
+      implementedBy = 'FlatList';
+    }
+
+    return strategy[implementedBy]();
   }
 }
