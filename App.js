@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import {QQPage} from "./src/pages/QQPage/index";
 import {ExpandableList} from "./src/components/ExpandableList";
 
 const IS_ANDROID = Platform.OS === 'ios';
@@ -21,7 +22,7 @@ export default class App extends Component {
     super(props);
 
     this._renderListItem = this._renderListItem.bind(this);
-    this._renderSectionHeader = this._renderSectionHeader.bind(this);
+    this._renderGroupHeader = this._renderGroupHeader.bind(this);
   }
 
   componentWillMount() {
@@ -94,6 +95,42 @@ export default class App extends Component {
           },
           {
             title: '第三行'
+          },
+          {
+            title: '第一行'
+          },
+          {
+            title: '第二行'
+          },
+          {
+            title: '第三行'
+          },
+          {
+            title: '第一行'
+          },
+          {
+            title: '第二行'
+          },
+          {
+            title: '第三行'
+          },
+          {
+            title: '第一行'
+          },
+          {
+            title: '第二行'
+          },
+          {
+            title: '第三行'
+          },
+          {
+            title: '第一行'
+          },
+          {
+            title: '第二行'
+          },
+          {
+            title: '第三行'
           }
         ]
       }
@@ -120,7 +157,7 @@ export default class App extends Component {
     );
   }
 
-  _renderSectionHeader({item, sectionId, toggleOpenStatus}) {
+  _renderGroupHeader({item, sectionId, toggleOpenStatus}) {
     return (
       <View style={styles.sectionHeaderContainer}>
         <TouchableOpacity style={styles.sectionLeftPart} onPress={this._handlePressLeft.bind(this, sectionId, toggleOpenStatus)}>
@@ -147,16 +184,24 @@ export default class App extends Component {
   }
 
   render() {
+
     return (
-      <View style={styles.appContainer}>
-        <ExpandableList
-          data={this.data}
-          itemStyle={styles.itemStyle}
-          renderListItem={this._renderListItem}
-          renderSectionHeader={this._renderSectionHeader}
-          />
+      <View>
+        <QQPage/>
       </View>
     );
+
+    // return (
+    //   <View style={styles.appContainer}>
+    //     <ExpandableList
+    //       data={this.data}
+    //       itemStyle={styles.itemStyle}
+    //       implementedBy={'ListView'}
+    //       renderListItem={this._renderListItem}
+    //       renderGroupHeader={this._renderGroupHeader}
+    //       />
+    //   </View>
+    // );
   }
 }
 
@@ -170,20 +215,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     borderColor: '#EEE',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(0,0,0,.6)',
-        shadowOpacity: .2,
-        shadowRadius: 5,
-        shadowOffset: {
-          width: 0,
-          height: 0
-        }
-      },
-      android: {
-
-      }
-    })
   },
   sectionHeaderContainer: {
     flexDirection: 'row',
