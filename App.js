@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 
 import {QQPage} from "./src/pages/QQPage/index";
+import {SimpleListPage} from "./src/pages/SimpleListPage/index";
 
 export default class App extends Component {
 
@@ -15,6 +16,7 @@ export default class App extends Component {
     return (
       <View>
         <QQPage/>
+        {/*<SimpleListPage/>*/}
       </View>
     );
   }

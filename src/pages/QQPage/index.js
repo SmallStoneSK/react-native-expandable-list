@@ -15,13 +15,13 @@ export class QQPage extends PureComponent {
 
   componentWillMount() {
     this.data = mockData;
-    console.log(JSON.stringify(mockData, null, 4));
+    this.headImg = require('../../pic/head.jpg');
   }
 
   render() {
     return (
       <View style={styles.pageContainer}>
-        <HeadBar headImg={require('../../pic/head.jpg')}/>
+        <HeadBar headImg={this.headImg}/>
         <SearchBox/>
         <FriendList data={this.data}/>
         <NavBar/>

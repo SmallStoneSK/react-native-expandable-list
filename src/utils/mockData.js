@@ -226,7 +226,7 @@ const mockData = GROUPS.map((groupName) => {
   let obj = {};
 
   // construct the group header data
-  const total = randomRange(0, 50);
+  const total = randomRange(0, 5);
   obj.groupHeaderData = {
     title: groupName,
     total: total,
