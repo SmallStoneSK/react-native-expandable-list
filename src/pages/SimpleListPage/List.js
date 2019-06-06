@@ -54,7 +54,6 @@ export class List extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     borderTopColor: '#DDD',
     borderTopWidth: 1
   },

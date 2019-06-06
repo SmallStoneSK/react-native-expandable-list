@@ -16,7 +16,7 @@ export default class App extends Component {
     return (
       <View>
         <QQPage/>
-        {/*<SimpleListPage/>*/}
+        {/* <SimpleListPage/> */}
       </View>
     );
   }
